@@ -3,13 +3,13 @@
 from pathlib import Path
 
 # Import model handlers
-from utils.model_yolov7 import YOLOv7Model
+from utils.models.model_yolov7 import YOLOv7Model
 
 # (future)
-from utils.model_yolov5 import YOLOv5Model
+from utils.models.model_yolov5 import YOLOv5Model
 # from utils.model_yolov8 import YOLOv8Model
-
-
+from utils.models.detr_handler import DETRHandler
+from utils.models.yolact_handler import YOLACTHandler
 class ModelFactory:
 
     @staticmethod
@@ -20,11 +20,16 @@ class ModelFactory:
         name = Path(model_path).name.lower()
 
         if "yolov7" in name:
+            
             return "yolov7"
         elif "yolov5" in name:
             return "yolov5"
         elif "yolov8" in name:
             return "yolov8"
+        elif "detr" in name:
+            return "detr"
+        elif "yolact" in name:
+            return "yolact"
         else:
             return "unknown"
 
@@ -51,10 +56,17 @@ class ModelFactory:
         # -------- YOLOv7 --------
         if model_type == "yolov7":
             return YOLOv7Model(model, device, names)
-
-        # -------- YOLOv5 (future) --------
+        
+        if model_type == "detr":
+            print(model_path)
+            return DETRHandler(model_path)
+        # -------- YOLOv5 --------
         elif model_type == "yolov5":
             return YOLOv5Model(model, device, names)
+
+        elif model_type =="yolact":
+            return YOLACTHandler(model_path)
+
 
         # -------- YOLOv8 (future) --------
         elif model_type == "yolov8":

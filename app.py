@@ -28,10 +28,13 @@ class ModelManager:
         self.model_dir = Path(model_dir)
 
     def list_models(self):
-        return [f.name for f in self.model_dir.glob("*.pt")]
+        return [f.name for f in self.model_dir.glob("*")]
 
     def load(self, model_name):
         path = self.model_dir / model_name
+        print(path)
+        if path.suffix == ".onnx":
+            return None, None, None, str(path)
 
         device = select_device('0' if torch.cuda.is_available() else 'cpu')
 
@@ -154,13 +157,14 @@ if run and "handler" not in st.session_state:
 
     with st.spinner("Loading model..."):
         model, device, names, path = manager.load(selected_model)
-
+        print(model)
+        
         handler = ModelFactory.create(
             model,
             device,
             names,
             path
-        )
+            )
 
         st.session_state["handler"] = handler
 
@@ -240,7 +244,7 @@ if run:
         counter = Counter(classes)
 
         # -------- UI --------
-        frame_window.image(frame, channels="BGR", width=True)
+        frame_window.image(frame, channels="BGR", width="stretch")
 
         fps_box.metric("FPS", f"{avg_fps:.2f}")
         lat_box.metric("Latency (ms)", f"{avg_lat:.1f}")
