@@ -1,0 +1,12 @@
+streamlit
+opencv-python
+numpy
+pandas
+Pillow
+torch
+torchvision
+ultralytics
+matplotlib
+psutil
+onnx
+onnxruntime-gpu
