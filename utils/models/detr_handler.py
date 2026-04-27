@@ -4,7 +4,7 @@ import numpy as np
 import torch
 import torchvision.transforms as T
 from torchvision.ops import nms
-
+from utils.plots import colors
 class DETRHandler:
     def __init__(self, model_path, providers=None):
         print(model_path,providers)
@@ -75,14 +75,14 @@ class DETRHandler:
                 score = scores_keep[i].item()
 
                 cls_name = self.names[cls_id] if cls_id < len(self.names) else str(cls_id)
-
-                det["boxes"].append({
+                if cls_name=='Trunk':
+                    det["boxes"].append({
                     "bbox": bbox,
                     "conf": score,
                     "class_name": cls_name,
-                    "color": (0, 255, 0)
+                    "color": colors(cls_id, True)
                 })
-            print(det["boxes"])
+            #print(det["boxes"])
             results.append(det)
 
         return results

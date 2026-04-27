@@ -3,7 +3,7 @@ import cv2
 import numpy as np
 import torch
 #from torchvision.ops import nms
-
+from utils.plots import colors
 MEANS = (103.94, 116.78, 123.68)
 STD = (57.38, 57.12, 58.40)
 INPUT_SIZE = 550
@@ -170,7 +170,7 @@ class YOLACTHandler:
                 "conf": score,
                 "class_id": cls_id,
                 "class_name": self.names[cls_id],
-                "color": (0, 255, 0)  
+                "color": colors(cls_id, True)
             })
 
         results.append({
