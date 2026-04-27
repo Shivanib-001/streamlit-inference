@@ -1,5 +1,3 @@
-Here’s a clean, professional **README.md** you can directly use for your repo:
-
 ---
 
 # AI Model Inference Dashboard
